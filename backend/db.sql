@@ -12,19 +12,6 @@ USE toll_booth;
 -- FLUSH PRIVILEGES;
 
 
-CREATE TABLE login_user_info(
-    usrid INT AUTO_INCREMENT PRIMARY KEY,
-    f_name VARCHAR(25),
-    minit VARCHAR(5),
-    l_name VARCHAR(25),
-    username VARCHAR(25) UNIQUE,
-    hashed_pass VARCHAR(255),
-    auth_level ENUM('admin','operator'),
-    CONSTRAINT uname_pass UNIQUE (username,hashed_pass),
-    CONSTRAINT usrid_fk FOREIGN KEY (usrid) REFERENCES employee_info(usrid)
-);
-
-
 CREATE TABLE employee_info (
     usrid INT AUTO_INCREMENT PRIMARY KEY,
     f_name VARCHAR(25),
@@ -37,8 +24,11 @@ CREATE TABLE employee_info (
     date_of_joining DATE -- New column
 );
 
+
+
+
 -- Step 4: Reinsert the values into the new table
-INSERT INTO employee_info(f_name, l_name, minit, username, hashed_pass, auth_level, address, date_of_joining) VALUES
+INSERT INTO employee_info(f_name, l_name, minit, auth_level, address, date_of_joining) VALUES
 ('John', 'Doe', 'A', '1', '123 Main St', '2023-01-01'),
 ('Alice', 'Smith', 'B', '1', '456 Oak St', '2023-02-15'),
 ('Bob', 'Johnson', 'C', '0', '789 Pine St', '2023-03-10'),
@@ -54,6 +44,18 @@ INSERT INTO employee_info(f_name, l_name, minit, username, hashed_pass, auth_lev
 ('James','May','', '1', '999 Slow St', '2024-01-10'),
 ('Richard','Hammond','','1', '777 Hamster St', '2024-02-14');
 
+CREATE TABLE login_user_info(
+    usrid INT AUTO_INCREMENT PRIMARY KEY,
+    f_name VARCHAR(25),
+    minit VARCHAR(5),
+    l_name VARCHAR(25),
+    username VARCHAR(25) UNIQUE,
+    hashed_pass VARCHAR(255),
+    auth_level ENUM('admin','operator'),
+    CONSTRAINT uname_pass UNIQUE (username,hashed_pass),
+    CONSTRAINT usrid_fk FOREIGN KEY (usrid) REFERENCES employee_info(usrid)
+);
+
 INSERT INTO login_user_info(f_name, l_name, minit, username, hashed_pass, auth_level) VALUES
 ('John', 'Doe', 'A', 'johndoe1', 'pass123', '1'),
 ('Alice', 'Smith', 'B', 'alice.smith', 'abc456', '1'),
@@ -61,23 +63,20 @@ INSERT INTO login_user_info(f_name, l_name, minit, username, hashed_pass, auth_l
 
 CREATE TABLE cost_matrix
 (   
-    destination VARCHAR(50) PRIMARY KEY,
-    Car INT,
-    Bus INT,
-    Truck INT
+    -- destination VARCHAR(50) PRIMARY KEY,
+    -- Car INT,
+    -- Bus INT,
+    -- Truck INT
+    vehicle_type ENUM('Car', 'Mini Truck', "Bus or Medium Truck", "Large Truck") DEFAULT 'Car',
+    single_trip int,
+    double_trip int
 );
 
-INSERT INTO cost_matrix (destination, `Car`, `Bus`, `Truck`)
-VALUES
-('Clover Leaf',60,150,105),
-('Kanakpura Road',90,225,150),
-('Bannerghatta Road',130,340,225),
-('Hosur Road',180,485,325),
-('Mysore Road',85,215,145),
-('Magadi Road',140,370,250),
-('Tumkur Road',185,490,330);
-
-SELECT * FROM cost_matrix;
+INSERT INTO cost_matrix (vehicle_type, single_trip, double_trip) VALUES
+("Car", 53, 79),
+("Mini Truck", 91, 138),
+("Bus or Medium Truck", 185, 227),
+("Large Truck", 297, 445);
 
 -- SELECT
 --     username,
