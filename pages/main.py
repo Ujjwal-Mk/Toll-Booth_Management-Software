@@ -5,12 +5,14 @@ def homepage(boolean,username,authenticator):
     if not boolean:
         return
     if db.get_level(username)=='0':
-        st.header('Welcome to admin homepage',username)
+        st.header('Welcome to admin homepage')
         import admin as ad
         ad.disp()
         authenticator.logout("Logout","main")
     if db.get_level(username)=='1':
-        st.header('Welcome to toll operator homepage',username)
+        st.header(f'Welcome to toll operator homepage')
+        import operate as op
+        op.disp()
         authenticator.logout("Logout","main")
 
 if __name__ == '__main__':

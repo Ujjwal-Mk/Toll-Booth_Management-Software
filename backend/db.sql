@@ -1,3 +1,4 @@
+-- Active: 1696681355003@@127.0.0.1@3306@toll_booth
 DROP DATABASE IF EXISTS toll_booth;
 
 CREATE DATABASE toll_booth;
@@ -53,6 +54,25 @@ INSERT INTO usr_info1 (f_name, l_name, minit, username, hashed_pass, auth_level,
 ('James','May','','jamesmay','captainslow','1', '999 Slow St', '2024-01-10'),
 ('Richard','Hammond','','richardham','hamster','1', '777 Hamster St', '2024-02-14');
 
+CREATE TABLE cost_matrix
+(   
+    destination VARCHAR(50) PRIMARY KEY,
+    Car INT,
+    Bus INT,
+    Truck INT
+);
+
+INSERT INTO cost_matrix (destination, `Car`, `Bus`, `Truck`)
+VALUES
+('Clover Leaf',60,150,105),
+('Kanakpura Road',90,225,150),
+('Bannerghatta Road',130,340,225),
+('Hosur Road',180,485,325),
+('Mysore Road',85,215,145),
+('Magadi Road',140,370,250),
+('Tumkur Road',185,490,330);
+
+SELECT * FROM cost_matrix;
 
 -- SELECT
 --     username,

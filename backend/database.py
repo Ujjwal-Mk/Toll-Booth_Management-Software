@@ -124,3 +124,38 @@ def delete_user(usrid: int) -> None:
         connection.commit()
     except Exception as e:
         print(f"delete user error:{e}")
+
+def get_dest():
+    try:
+        conn,cursor = init_conn()
+        operate_str = "SELECT destination from cost_matrix;"
+        cursor.execute(operate_str)
+        dests = cursor.fetchall()
+        # print(dests)
+        dest_final=[]
+        for place in dests:
+            dest_final.append(place[0])
+        return dest_final
+    except Exception as e:
+        print(f'get_dest error:\n{e}')
+
+def get_vehicle_type():
+    try:
+        conn,cursor = init_conn()
+        operate_str = 'SELECT Car,Bus,Truck from cost_matrix;'
+        cursor.execute(operate_str)
+        _ = cursor.fetchall()
+        vehicle_type = [i[0] for i in cursor.description]
+        return vehicle_type
+    except Exception as e:
+        print(f'get_vehicle_type error:\n{e}')
+
+def get_fare(dest, vehicle):
+    try:
+        conn,cursor = init_conn()
+        operate_str = f"SELECT {vehicle} from cost_matrix where destination='{dest}'"
+        cursor.execute(operate_str)
+        price = cursor.fetchall()
+        return price[0]
+    except Exception as e:
+            print(f'get_fare error:\n{e}')
