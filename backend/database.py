@@ -21,29 +21,27 @@ def init_conn():
     except Exception as e:
         print(e)
 
-def get_usr_info():
+def get_login_user_info():
     _, cursor = init_conn()
     try:
         usernames = []
         passwords = []
         names = []
 
-        # Execute a query to fetch usernames and passwords
-        cursor.execute('SELECT username, hashed_pass as password, CONCAT(f_name, " ", l_name) as names FROM usr_info;')
-
-        # Fetch all the rows as a list of tuples
+        # Query to fetch usernames and passwords
+        cursor.execute('SELECT username, CONCAT(f_name, " ", l_name) as name, hashed_pass FROM login_user_info;')
+        # Fetching all the rows as a list of tuples
         user_data = cursor.fetchall()
 
-        # print(user_data,type(user_data),'\n')
-
         # Extract usernames and passwords from the fetched data
-        for username, password, name in user_data:
+        for username, name, password in user_data:
             usernames.append(username)
             passwords.append(password)
             names.append(name)
+
+        return (names,usernames, passwords)
     except Exception as e:
         print(e)
-    return (names,usernames, passwords)
 
 
 def get_df(operate_str):

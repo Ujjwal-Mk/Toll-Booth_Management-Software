@@ -21,27 +21,36 @@ try:
 
     f_names, minits, l_names, usernames, Passes, auth_levels = [],[],[],[],[],[]
 
-    operate_str = 'SELECT f_name, minit, l_name, username, hashed_pass as Pass, auth_level FROM usr_info1;'
+    operate_str = 'SELECT usrid, f_name, minit, l_name, username, hashed_pass as Pass, auth_level FROM login_user_info;'
     cursor.execute(operate_str)
-
+    passes = []
+    users = []
     user_data = cursor.fetchall()
-    for f_name, minit, l_name, username, Pass, auth_level in user_data:
-        f_names.append(f_name)
-        minits.append(minit)
-        l_names.append(l_name)
-        usernames.append(username)
-        Passes.append(Pass)
-        auth_levels.append(auth_level)
+    # for f_name, minit, l_name, username, Pass, auth_level in user_data:
+    #     f_names.append(f_name)
+    #     minits.append(minit)
+    #     l_names.append(l_name)
+    #     usernames.append(username)
+    #     Passes.append(Pass)
+    #     auth_levels.append(auth_level)
 
-    hashed_passes = stauth.Hasher(Passes).generate()
+    for usrid, _, _, _, _, Pass, _ in user_data:
+        users.append(usrid)
+        passes.append(Pass)
+
+    hashed_passes = stauth.Hasher(passes).generate()
 
     # print(usernames,"\n",Passes,"\n",hashed_passes,"\n")
+    for id, hashed_pass in zip(users, hashed_passes):
+        vals = (hashed_pass, id)
+        cursor.execute("UPDATE login_user_info SET hashed_pass=%s WHERE usrid=%s;", vals)
+    connection.commit()
 
-    for i in range(len(usernames)):
-        operate_str1 = 'INSERT INTO usr_info (f_name,minit,l_name,username,hashed_pass,auth_level) VALUES (%s,%s,%s,%s,%s,%s)'
-        data = (f_names[i],minits[i],l_names[i],usernames[i],hashed_passes[i],auth_levels[i])
-        cursor.execute(operate_str1,data)
-        cursor.fetchall()
+    # for i in range(len(usernames)):
+    #     operate_str1 = 'INSERT INTO login_user_info (f_name,minit,l_name,username,hashed_pass,auth_level) VALUES (%s,%s,%s,%s,%s,%s)'
+    #     data = (f_names[i],minits[i],l_names[i],usernames[i],hashed_passes[i],auth_levels[i])
+    #     cursor.execute(operate_str1,data)
+    #     cursor.fetchall()
 
 except mysql.connector.Error as err:
     print(f"Error: {err}")
