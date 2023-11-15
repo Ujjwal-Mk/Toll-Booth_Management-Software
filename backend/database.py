@@ -60,7 +60,7 @@ def add_usr(uname,Pass,f_name,minit,l_name,auth_lvl,address):
         dummy_list.append(Pass)
         hash_pass = stauth.Hasher(dummy_list).generate()[0]
 
-        operate_str = 'INSERT INTO usr_info (f_name,minit,l_name,username,hashed_pass,auth_level) VALUES (%s,%s,%s,%s,%s,%s)'
+        operate_str = 'INSERT INTO user_info (f_name,minit,l_name,username,hashed_pass,auth_level) VALUES (%s,%s,%s,%s,%s,%s)'
         data = (f_name,minit,l_name,uname,hash_pass,auth_lvl)
 
         cursor.execute(operate_str,data)
@@ -80,14 +80,10 @@ def get_level(username):
     try:
         connection,cursor = init_conn()
         auth_levels = []
-        operate_str1 = (f"SELECT auth_level FROM usr_info WHERE username='{username}'")
+        operate_str1 = (f"SELECT auth_level FROM login_user_info WHERE username='{username}'")
         cursor.execute(operate_str1)
-        user_data = cursor.fetchall()
-
-        for level in user_data:
-            auth_levels.append(level)
-
-        return auth_levels[0][0]
+        user_data = cursor.fetchone()
+        return user_data[0]
     
     except mysql.connector.Error as err:
         print(f"Error{err}")

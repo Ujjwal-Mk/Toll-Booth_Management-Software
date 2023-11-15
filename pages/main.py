@@ -4,12 +4,12 @@ import pathlib, sys
 def homepage(boolean,username,authenticator):
     if not boolean:
         return
-    if db.get_level(username)=='0':
+    if db.get_level(username)=='admin':
         st.header('Welcome to admin homepage')
         import admin as ad
         ad.disp()
         authenticator.logout("Logout","main")
-    if db.get_level(username)=='1':
+    if db.get_level(username)=='operator':
         st.header(f'Welcome to toll operator homepage')
         import operate as op
         op.disp()
