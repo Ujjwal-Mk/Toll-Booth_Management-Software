@@ -1,5 +1,5 @@
 import streamlit as st
-import pathlib,sys
+import pathlib,sys, time
 
 def disp_emp_info():
         st.header("List of users:")
@@ -34,8 +34,8 @@ def disp_emp_info():
                 addr = st.session_state.address
                 auth_lvl = st.session_state.auth_lvl
                 db.add_employee(f_name,minit,l_name,auth_lvl,addr)
-                reset()
                 st.success("New User added")
+                reset()
 
         #Deletion
         with st.container():
@@ -49,11 +49,13 @@ def disp_emp_info():
                 with st.expander("Delete Employee"):
                     with st.form('Delete Employee'):
                         #st.selectbox('ID of Employee',options=list(user_dict.keys()),index=None,key='uid')
-                        uid = ""
-                        st.text_input("ID of Employee", key=uid)
+                        # uid = ""
+                        st.text_input("ID of Employee", key='uid')
                         st.form_submit_button("Delete", on_click=delete_submission)
                 if 'deleted' in st.session_state and st.session_state.deleted == True:
-                    # print(type(user_dict[st.session_state.usr_name]))
+                    uid = st.session_state.uid
+                    # print(st.session_state)
                     db.delete_employee(uid)
-                    st.success(f"Successfully Deleted {st.session_state.uid}")
+                    st.success(f"Successfully Deleted")
+                    time.sleep(1)
                     delete_reset()
