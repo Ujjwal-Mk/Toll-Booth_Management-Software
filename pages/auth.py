@@ -25,7 +25,7 @@ def user_login():
     for uname, name, pwd in zip(usernames, names, hashed_passwords):
         user_dict = {"name": name, "password": pwd}
         credentials["usernames"].update({uname: user_dict})
-    print(credentials)
+    #print(credentials)
 
     authenticator = stauth.Authenticate(credentials, "cookkkie", "random_key", cookie_expiry_days=1)
 

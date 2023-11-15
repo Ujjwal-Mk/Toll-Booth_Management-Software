@@ -106,15 +106,19 @@ def get_usr_names():
     except Exception as e:
         print(f"get_usr_names error:{e}")
 
-def delete_user(usrid: int) -> None:
+def delete_employee(usrid: int) -> None:
     try:
         connection,cursor = init_conn()
-        operate_str = f"DELETE FROM usr_info1 WHERE usrid = {usrid}"
+        operate_str = f"DELETE FROM employee_info WHERE usrid={usrid};"
         # print(operate_str)
         cursor.execute(operate_str)
-        operate_str1 = f"DELETE FROM usr_info WHERE usrid = {usrid}"
+        usrid = str(usrid)
+        #cursor.execute("DELETE FROM employee_info WHERE usrid=%s", (usrid, ))
+
+        #operate_str1 = f"DELETE FROM usr_info WHERE usrid = {usrid}"
         # print(operate_str1)
-        cursor.execute(operate_str1)
+        
+        #cursor.execute(operate_str1)
         connection.commit()
     except Exception as e:
         print(f"delete user error:{e}")
