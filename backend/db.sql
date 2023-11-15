@@ -72,6 +72,18 @@ VALUES
 ('Magadi Road',140,370,250),
 ('Tumkur Road',185,490,330);
 
+-- used from operator side
+CREATE TABLE ticket_generate (
+    ticket_id VARCHAR(36) PRIMARY KEY,
+    emp_username VARCHAR(50),
+    place VARCHAR(50),
+    vehicle_type VARCHAR(10),
+    vehicle_registration_number VARCHAR(15),
+    cost INT,
+    date_generated DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
 SELECT * FROM cost_matrix;
 
 -- SELECT
