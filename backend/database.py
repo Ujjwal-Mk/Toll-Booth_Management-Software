@@ -53,6 +53,25 @@ def get_df(operate_str):
     return (pd.DataFrame(rows,columns=cols,index=[i for i in range(1,len(rows)+1)]))
 
 
+def add_employee(f_name,minit,l_name,auth_lvl,address):
+    connection, cursor = init_conn()
+    try:
+
+        operate_str = 'INSERT INTO employee_info (f_name,minit,l_name,auth_level, address, date_of_joining) VALUES (%s,%s,%s,%s, %s, curdate())'
+        data = (f_name,minit,l_name,auth_lvl, address)
+
+        cursor.execute(operate_str,data)
+
+        # operate_str1 = 'INSERT INTO usr_info1 (f_name,minit,l_name,username,hashed_pass,auth_level,address,date_of_joining) VALUES (%s,%s,%s,%s,%s,%s,%s,CURDATE())'
+        # data = (f_name,minit,l_name,uname,Pass,auth_lvl,address)
+        # cursor.execute(operate_str1,data)
+        print("\nnew user added\n")
+    except mysql.connector.Error as err:
+        print(f"Error: {err}")
+    finally:
+         if connection:
+              connection.commit()
+
 def add_usr(uname,Pass,f_name,minit,l_name,auth_lvl,address):
     connection, cursor = init_conn()
     try:

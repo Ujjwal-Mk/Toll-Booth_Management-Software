@@ -21,23 +21,23 @@ def disp_emp_info():
                 st.session_state.submitted = False
             with st.expander('Create New Employee'):
                 with st.form("Employee Form",clear_on_submit=True):
-                    st.text_input("User ID",key="uid")
                     st.text_input("First Name",key='f_name')
                     st.text_input("Middle Initials",key='minit')
                     st.text_input("Last Name",key='l_name')
                     st.text_input("Address",key='address')
-                    st.selectbox("Authorization Level",['0','1'],index=1,key='auth_lvl')
+                    st.selectbox("Authorization Level",['admin','operator'],index=1,key='auth_lvl')
                     st.form_submit_button("Submit",on_click=submitted)
             if 'submitted' in st.session_state and st.session_state.submitted == True:
-                uid = st.session_state.uid
                 f_name = st.session_state.f_name
                 minit = st.session_state.minit
                 l_name = st.session_state.l_name
                 addr = st.session_state.address
                 auth_lvl = st.session_state.auth_lvl
-                db.add_usr(uid,f_name,minit,l_name,auth_lvl,addr)
+                db.add_employee(f_name,minit,l_name,auth_lvl,addr)
                 reset()
                 st.success("New User added")
+
+        #Deletion
         with st.container():
             def delete_submission():
                 st.session_state.deleted = True
